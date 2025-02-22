@@ -1,0 +1,58 @@
+﻿@page "/"
+@using Operaciones_por_Pila.Services
+
+<PageTitle>Conversion Operaciones</PageTitle>
+<h1>Conversion de Operaciones</h1>
+
+<div class="row">
+
+    <div class="col-6">
+        <input type="text" class="form-control" @bind="ExpresionInfija" placeholder="Ingrese una operacion infija" />
+    </div>
+    <div class="col-3 form-group">
+        <button class="btn btn-primary" @onclick="Convertir">Convertir</button>
+    </div>
+
+</div>
+<br />
+<div class="col">
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Operacion Infija</th>
+                <th>Operacion Posfija</th>
+                <th>Resultado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!string.IsNullOrEmpty(ExpresionPostfija))
+            {
+                <tr>
+                    <td>@Expresion</td>
+                    <td>@ExpresionPostfija</td>
+                    <td>@Resultado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@code {
+    private string ExpresionInfija { get; set; }
+    private string ExpresionPostfija { get; set; }
+    private string Expresion { get; set; }
+    private string Resultado { get; set; }
+
+    private void Convertir()
+    {
+        if (!string.IsNullOrEmpty(ExpresionInfija))
+        {
+            Expresion = ExpresionInfija;
+            ExpresionPostfija = Conversion.ConversionOP(ExpresionInfija);
+            ExpresionInfija = "";
+            Resultado = Conversion.Evaluar(ExpresionPostfija).ToString();
+        }
+    }
+    
+}
